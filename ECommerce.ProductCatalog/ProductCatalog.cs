@@ -4,6 +4,7 @@ using System.Fabric;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ECommerce.ProductCatalog.Model;
 using Microsoft.ServiceFabric.Data.Collections;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
@@ -15,9 +16,14 @@ namespace ECommerce.ProductCatalog
     /// </summary>
     internal sealed class ProductCatalog : StatefulService
     {
-        public ProductCatalog(StatefulServiceContext context)
+        private   IProductRepository _productRepository;
+        public ProductCatalog(StatefulServiceContext context
+            //, IProductRepository productRepository
+            )
             : base(context)
-        { }
+        {
+            //_productRepository = productRepository;
+        }
 
         /// <summary>
         /// Optional override to create listeners (e.g., HTTP, Service Remoting, WCF, etc.) for this service replica to handle client or user requests.
@@ -38,31 +44,30 @@ namespace ECommerce.ProductCatalog
         /// <param name="cancellationToken">Canceled when Service Fabric needs to shut down this service replica.</param>
         protected override async Task RunAsync(CancellationToken cancellationToken)
         {
-            // TODO: Replace the following sample code with your own logic 
-            //       or remove this RunAsync override if it's not needed in your service.
-
-            var myDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, long>>("myDictionary");
-
-            while (true)
+            _productRepository = new ServiceFabricProductRepository(this.StateManager);
+            var product1 = new Product
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                Id = Guid.NewGuid(), Name = "Dell Monitor", Description = "Computer Monitor",
+                Price = 500,  Availability = 100
+            };
 
-                using (var tx = this.StateManager.CreateTransaction())
-                {
-                    var result = await myDictionary.TryGetValueAsync(tx, "Counter");
+            var product2 = new Product
+            {
+                Id = Guid.NewGuid(), Name = "Surface Book", Description = "Microsoft's Latest Laptop, i7 CPU, 1Tb SSD",
+                Price = 2200, Availability = 15
+            };
 
-                    ServiceEventSource.Current.ServiceMessage(this.Context, "Current Counter Value: {0}",
-                        result.HasValue ? result.Value.ToString() : "Value does not exist.");
+            var product3 = new Product
+            {
+                Id = Guid.NewGuid(), Name = "Arc Touch Mouse", Description = "Computer Mouse, bluetooth, requires 2 AAA batteries",
+                Price = 60, Availability = 30
+            };
 
-                    await myDictionary.AddOrUpdateAsync(tx, "Counter", 0, (key, value) => ++value);
+            await _productRepository.AddProduct(product1);
+            await _productRepository.AddProduct(product2);
+            await _productRepository.AddProduct(product3);
 
-                    // If an exception is thrown before calling CommitAsync, the transaction aborts, all changes are 
-                    // discarded, and nothing is saved to the secondary replicas.
-                    await tx.CommitAsync();
-                }
-
-                await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-            }
+            var allProducts = await _productRepository.GetAllProducts();
         }
     }
 }
