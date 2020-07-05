@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using ECommerce.ProductCatalog.Model;
 using Microsoft.ServiceFabric.Data.Collections;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
+using Microsoft.ServiceFabric.Services.Remoting.V2.FabricTransport.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 
 namespace ECommerce.ProductCatalog
@@ -14,15 +15,25 @@ namespace ECommerce.ProductCatalog
     /// <summary>
     /// An instance of this class is created for each service replica by the Service Fabric runtime.
     /// </summary>
-    internal sealed class ProductCatalog : StatefulService
+    internal sealed class ProductCatalog : StatefulService, IProductCatalogService
     {
-        private   IProductRepository _productRepository;
+        private IProductRepository _productRepository;
         public ProductCatalog(StatefulServiceContext context
             //, IProductRepository productRepository
             )
             : base(context)
         {
             //_productRepository = productRepository;
+        }
+
+        public async Task AddProductAsync(Product product)
+        {
+            await _productRepository.AddProduct(product);
+        }
+
+        public async Task<Product[]> GetAllProductsAsync()
+        {
+            return (await _productRepository.GetAllProducts()).ToArray();
         }
 
         /// <summary>
@@ -34,7 +45,10 @@ namespace ECommerce.ProductCatalog
         /// <returns>A collection of listeners.</returns>
         protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()
         {
-            return new ServiceReplicaListener[0];
+            return new[]
+            {
+                new ServiceReplicaListener(context => new FabricTransportServiceRemotingListener(context, this))
+            };
         }
 
         /// <summary>
@@ -47,20 +61,29 @@ namespace ECommerce.ProductCatalog
             _productRepository = new ServiceFabricProductRepository(this.StateManager);
             var product1 = new Product
             {
-                Id = Guid.NewGuid(), Name = "Dell Monitor", Description = "Computer Monitor",
-                Price = 500,  Availability = 100
+                Id = Guid.NewGuid(),
+                Name = "Dell Monitor",
+                Description = "Computer Monitor",
+                Price = 500,
+                Availability = 100
             };
 
             var product2 = new Product
             {
-                Id = Guid.NewGuid(), Name = "Surface Book", Description = "Microsoft's Latest Laptop, i7 CPU, 1Tb SSD",
-                Price = 2200, Availability = 15
+                Id = Guid.NewGuid(),
+                Name = "Surface Book",
+                Description = "Microsoft's Latest Laptop, i7 CPU, 1Tb SSD",
+                Price = 2200,
+                Availability = 15
             };
 
             var product3 = new Product
             {
-                Id = Guid.NewGuid(), Name = "Arc Touch Mouse", Description = "Computer Mouse, bluetooth, requires 2 AAA batteries",
-                Price = 60, Availability = 30
+                Id = Guid.NewGuid(),
+                Name = "Arc Touch Mouse",
+                Description = "Computer Mouse, bluetooth, requires 2 AAA batteries",
+                Price = 60,
+                Availability = 30
             };
 
             await _productRepository.AddProduct(product1);
