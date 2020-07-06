@@ -47,5 +47,15 @@ namespace ECommerce.ProductCatalog
 
             return result;
         }
+
+        public async Task<Product> GetProduct(Guid productId)
+        {
+            var products = await _stateManager.GetOrAddAsync<IReliableDictionary<Guid, Product>>(PRODUCTS);
+            using (var transaction = _stateManager.CreateTransaction())
+            {
+                var conditionalProduct = await products.TryGetValueAsync(transaction, productId);
+                return conditionalProduct.HasValue ? conditionalProduct.Value : null;
+            }
+        }
     }
 }

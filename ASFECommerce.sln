@@ -11,9 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.ProductCatalog.Mo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.API", "ECommerce.API\ECommerce.API.csproj", "{549B9B89-416B-411F-898F-4F13C0596691}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserActor", "UserActor\UserActor.csproj", "{E87C55BF-8FC0-40D1-8025-F8C551BE7605}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserActor", "UserActor\UserActor.csproj", "{E87C55BF-8FC0-40D1-8025-F8C551BE7605}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserActor.Interfaces", "UserActor.Interfaces\UserActor.Interfaces.csproj", "{BD217061-815B-4072-BCCA-2B2DFFE5F906}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserActor.Interfaces", "UserActor.Interfaces\UserActor.Interfaces.csproj", "{BD217061-815B-4072-BCCA-2B2DFFE5F906}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.CheckoutService", "ECommerce.CheckoutService\ECommerce.CheckoutService.csproj", "{A4520524-C31D-4AC9-BEC3-D0F6E128F542}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.CheckoutService.Model", "ECommerce.CheckoutService.Model\ECommerce.CheckoutService.Model.csproj", "{26795D30-A41D-49EB-B68D-6E5F9E284F5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +75,22 @@ Global
 		{BD217061-815B-4072-BCCA-2B2DFFE5F906}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BD217061-815B-4072-BCCA-2B2DFFE5F906}.Release|x64.ActiveCfg = Release|Any CPU
 		{BD217061-815B-4072-BCCA-2B2DFFE5F906}.Release|x64.Build.0 = Release|Any CPU
+		{A4520524-C31D-4AC9-BEC3-D0F6E128F542}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4520524-C31D-4AC9-BEC3-D0F6E128F542}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4520524-C31D-4AC9-BEC3-D0F6E128F542}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A4520524-C31D-4AC9-BEC3-D0F6E128F542}.Debug|x64.Build.0 = Debug|Any CPU
+		{A4520524-C31D-4AC9-BEC3-D0F6E128F542}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4520524-C31D-4AC9-BEC3-D0F6E128F542}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4520524-C31D-4AC9-BEC3-D0F6E128F542}.Release|x64.ActiveCfg = Release|Any CPU
+		{A4520524-C31D-4AC9-BEC3-D0F6E128F542}.Release|x64.Build.0 = Release|Any CPU
+		{26795D30-A41D-49EB-B68D-6E5F9E284F5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26795D30-A41D-49EB-B68D-6E5F9E284F5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26795D30-A41D-49EB-B68D-6E5F9E284F5F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{26795D30-A41D-49EB-B68D-6E5F9E284F5F}.Debug|x64.Build.0 = Debug|Any CPU
+		{26795D30-A41D-49EB-B68D-6E5F9E284F5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26795D30-A41D-49EB-B68D-6E5F9E284F5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26795D30-A41D-49EB-B68D-6E5F9E284F5F}.Release|x64.ActiveCfg = Release|Any CPU
+		{26795D30-A41D-49EB-B68D-6E5F9E284F5F}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
