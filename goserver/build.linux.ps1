@@ -1,4 +1,4 @@
-$Image = "aloneguid/psmandelgo:alpine"
+$Image = "morcodou/psmandelgo:alpine"
 
 docker build -f Dockerfile.linux -t $Image .
 
